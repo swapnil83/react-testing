@@ -16,7 +16,7 @@ test('clicking on the button loads 6 more products', async () => {
         name: /load more/i
     });
     user.click(button);
-    
+
     await waitFor(async () => {
         const titles = await screen.findAllByRole('heading');
         expect(titles).toHaveLength(12);
