@@ -27,16 +27,16 @@ test('it calls onUserAdd when the form is submitted', async () => {
         name: /enter name/i
     });
 
-    user.click(nameInput);
-    user.keyboard('Jane');
+    await user.click(nameInput);
+    await user.keyboard('Jane');
 
     const emailInput = screen.getByLabelText(/enter email/i);
 
-    user.click(emailInput);
-    user.keyboard('jane@test.com');
+    await user.click(emailInput);
+    await user.keyboard('jane@test.com');
 
     const button = screen.getByRole('button');
-    user.click(button);
+    await user.click(button);
 
     // await waitFor(() => {
     //     expect(argList).toHaveLength(1);
@@ -45,4 +45,25 @@ test('it calls onUserAdd when the form is submitted', async () => {
     expect(mock).toHaveBeenCalled();
     expect(mock).toHaveBeenCalledWith({ name: 'Jane', email: 'jane@test.com' });
 
+});
+
+test('empties the two inputs when form is submitted', async () => {
+    render(<UserForm onUserAdd={() => {}} />);
+
+    const nameInput = screen.getByRole('textbox', {
+        name: /enter name/i
+    });
+    const emailInput = screen.getByLabelText(/enter email/i);
+    const button = screen.getByRole('button');
+
+    await user.click(nameInput);
+    await user.keyboard('Jane');
+
+    await user.click(emailInput);
+    await user.keyboard('jane@test.com');
+
+    await user.click(button);
+
+    expect(nameInput).toHaveValue('');
+    expect(emailInput).toHaveValue('');
 });

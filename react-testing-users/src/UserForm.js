@@ -7,6 +7,8 @@ const UserForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onUserAdd({name, email});
+        setName('');
+        setEmail('');
     }
 
     return (
